@@ -5,10 +5,12 @@ test('isObject - string', () => {
 });
 
 test('isObject - valid object', () => {
-  expect(isObject({
-    a: 1,
-    b: 'test'
-  })).toBe(true);
+  expect(
+    isObject({
+      a: 1,
+      b: 'test',
+    }),
+  ).toBe(true);
 });
 
 test('isObject - empty object', () => {
