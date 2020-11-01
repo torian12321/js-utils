@@ -18,5 +18,6 @@
   "bugs": {
     "url": "https://github.com/torian12321/js-utils/issues"
   },
-  "homepage": "https://github.com/torian12321/js-utils#readme"
+  "homepage": "https://github.com/torian12321/js-utils#readme",
+  "publishConfig": { "registry": "https://npm.pkg.github.com/" }
 }
