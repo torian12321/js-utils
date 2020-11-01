@@ -1,6 +1,6 @@
 {
-  "name": "torian12321-js-utils",
-  "version": "1.0.0",
+  "name": "torian-js-utils",
+  "version": "1.0.1",
   "description": "",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
