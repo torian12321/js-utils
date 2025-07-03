@@ -1,6 +1,5 @@
 {
   "name": "@torian12321/js-utils",
-  "private": true,
   "version": "0.0.0",
   "type": "module",
   "prettier": "@torian12321/prettier-config",
@@ -10,7 +9,16 @@
     "format": "eslint",
     "format:fix": "eslint --fix",
     "test": "vitest run",
-    "test:watch": "vitest --ui"
+    "test:watch": "vitest --ui",
+    "prepublishOnly": "npm run test"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://npm.pkg.github.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/torian12321/js-utils.git"
   },
   "exports": {
     ".": "./src/index.ts",
@@ -22,7 +30,7 @@
     "./url": "./src/url/index.ts"
   },
   "devDependencies": {
-    "@torian12321/eslint-config": "0.0.2",
+    "@torian12321/eslint-config": "0.0.3",
     "@torian12321/prettier-config": "0.0.1",
     "@torian12321/typescript-config": "0.0.1",
     "@types/node": "^20.19.1",
