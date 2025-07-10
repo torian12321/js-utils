@@ -1,4 +1,4 @@
-import { isString } from '../';
+import { isString } from 'src/typeChecker/isString';
 
 /**
  * Clean object by removing empty nodes, nodes

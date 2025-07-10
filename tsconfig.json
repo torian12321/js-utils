@@ -1,4 +1,10 @@
 {
   "extends": "@torian12321/typescript-config/vite.json",
-  "include": [".", "src"]
+  "include": [".", "src"],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "src/*": ["src/*"]
+    }
+  }
 }

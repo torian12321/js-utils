@@ -1,4 +1,4 @@
-import { isObject } from '../';
+import { isObject } from 'src/typeChecker/isObject';
 
 /**
  * Performs a deep merge of objects and returns new object. Does not modify

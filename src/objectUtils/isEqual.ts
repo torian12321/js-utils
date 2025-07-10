@@ -1,4 +1,4 @@
-import { isObject } from '../typeChecker/isObject';
+import { isObject } from 'src/typeChecker/isObject';
 
 type AnyObject = Record<string, unknown>;
 

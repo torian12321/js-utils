@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { userObj1 } from '../__mock';
+import { userObj1 } from 'src/__mock';
 import { cleanObject } from './cleanObject';
 
 describe('objectUtils/cleanObject', () => {

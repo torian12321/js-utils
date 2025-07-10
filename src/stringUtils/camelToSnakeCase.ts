@@ -1,4 +1,4 @@
-import { isString } from '../typeChecker';
+import { isString } from 'src/typeChecker/isString';
 
 /**
  * Takes a cameCase `string` and returns its snake_case version.

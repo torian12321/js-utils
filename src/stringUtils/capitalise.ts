@@ -1,4 +1,4 @@
-import { isString } from '../typeChecker';
+import { isString } from 'src/typeChecker/isString';
 
 /**
  * Takes an `string` and returns it

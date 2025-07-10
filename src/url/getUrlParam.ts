@@ -1,4 +1,4 @@
-import { isString } from '../typeChecker';
+import { isString } from 'src/typeChecker/isString';
 
 /**
  * Retrieves the value of a specified parameter from the current URL's query string.

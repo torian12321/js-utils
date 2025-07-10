@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { userObj1, userObj2 } from '../__mock';
+import { userObj1, userObj2 } from 'src/__mock';
 import { mergeDeep } from './mergeDeep';
 
 describe('objectUtils/mergeDeep', () => {

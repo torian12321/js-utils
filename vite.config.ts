@@ -18,6 +18,7 @@ export default defineConfig({
         statements: 100,
       },
     },
+    globals: true,
   },
   build: {
     lib: {
@@ -27,6 +28,8 @@ export default defineConfig({
     },
   },
   resolve: {
-    alias: [{ find: 'src', replacement: './src' }],
+    alias: {
+      src: resolve(__dirname, 'src'),
+    },
   },
 });

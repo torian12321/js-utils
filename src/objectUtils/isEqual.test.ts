@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { emptyObj, userObj1 } from '../__mock';
+import { emptyObj, userObj1 } from 'src/__mock';
 import { isEqual } from './isEqual';
 
 describe('objectUtils/isEqual', () => {
