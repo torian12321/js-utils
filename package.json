@@ -51,6 +51,6 @@
     "typedoc-material-theme": "^1.4.1",
     "vite": "^7.2.2",
     "vite-plugin-dts": "^4.5.4",
-    "vitest": "^4.0.8"
+    "vitest": "^4.0.14"
   }
 }
