@@ -1,0 +1,56 @@
+{
+  "name": "@torian12321/js-library-template",
+  "version": "0.0.3-alpha.4",
+  "type": "module",
+  "prettier": "@torian12321/prettier-config",
+  "scripts": {
+    "build": "vite build",
+    "build:docs": "typedoc",
+    "format": "eslint --fix && prettier --write .",
+    "format:check": "eslint && prettier --check .",
+    "test": "vitest run",
+    "test:watch": "vitest --ui",
+    "prepublishOnly": "npm run format:check && npm run test && npm run build"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://npm.pkg.github.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/torian12321/js-library-template.git"
+  },
+  "files": [
+    "dist/**/*"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/js-library-template.js",
+      "require": "./dist/js-library-template.cjs"
+    },
+    "./is": {
+      "types": "./dist/is.d.ts",
+      "import": "./dist/is.js",
+      "require": "./dist/is.cjs"
+    }
+  },
+  "devDependencies": {
+    "@torian12321/eslint-config": "0.0.11",
+    "@torian12321/prettier-config": "0.0.4",
+    "@torian12321/typescript-config": "0.0.5",
+    "@types/node": "^24.10.0",
+    "@vitest/coverage-v8": "^4.0.8",
+    "@vitest/ui": "^4.0.8",
+    "eslint": "^9.39.1",
+    "globals": "^16.5.0",
+    "prettier": "^3.6.2",
+    "rollup-plugin-visualizer": "^6.0.5",
+    "typedoc": "^0.28.14",
+    "typedoc-github-theme": "^0.3.1",
+    "typedoc-material-theme": "^1.4.1",
+    "vite": "^7.2.2",
+    "vite-plugin-dts": "^4.5.4",
+    "vitest": "^4.0.8"
+  }
+}

@@ -1,0 +1,46 @@
+name: 'Setup NPM and Install Dependencies'
+description: 'Generic npm setup that handles GitHub Packages registry configuration and dependency installation'
+
+inputs:
+  node-version:
+    description: 'Node.js version to use'
+    required: false
+    default: '22'
+  registry-url:
+    description: 'NPM registry URL (e.g., https://npm.pkg.github.com)'
+    required: false
+    default: 'https://npm.pkg.github.com'
+  scope:
+    description: 'NPM scope (e.g., @torian12321)'
+    required: false
+    default: '@torian12321'
+  github-token:
+    description: 'GitHub token for authentication (defaults to GITHUB_TOKEN)'
+    required: false
+    default: ''
+
+runs:
+  using: 'composite'
+  steps:
+    - name: 🔧 Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ inputs.node-version }}
+        registry-url: ${{ inputs.registry-url }}
+        scope: ${{ inputs.scope }}
+        cache: 'npm'
+
+    - name: 🔑 Prepare .npmrc from example
+      run: |
+        if [ -f .npmrc.example ]; then
+          cp .npmrc.example .npmrc
+          TOKEN="${{ inputs.github-token != '' && inputs.github-token || github.token }}"
+          if [ -n "$TOKEN" ]; then
+            sed -i "s|NPMRC_NODE_AUTH_TOKEN|$TOKEN|g" .npmrc
+          fi
+        fi
+      shell: bash
+
+    - name: 📦 Install dependencies
+      run: npm install
+      shell: bash

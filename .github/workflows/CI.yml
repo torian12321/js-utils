@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [master]
+  workflow_call: # Allows this workflow to be called from other workflows
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📦 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🔧 Setup NPM and Install Dependencies
+        uses: ./.github/actions/setup-npm
+
+      - name: 🧪 Run tests
+        run: npm run test
+
+      - name: 💅 Check formatting
+        run: npm run format:check
+
+      - name: ⛏️ Build the library and documentation
+        run: |
+          npm run build &
+          npm run build:docs &
+          wait
