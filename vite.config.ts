@@ -8,11 +8,16 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     lib: {
-      name: '@torian12321/js-library-template',
+      name: '@torian/js-utils',
       formats: ['es', 'cjs'],
       entry: {
-        'js-library-template': resolve(__dirname, 'src/index.ts'),
-        is: resolve(__dirname, 'src/is/index.ts'),
+        'js-utils': resolve(__dirname, 'src/index.ts'),
+        array: resolve(__dirname, 'src/arrayUtils/index.ts'),
+        date: resolve(__dirname, 'src/dateUtils/index.ts'),
+        object: resolve(__dirname, 'src/objectUtils/index.ts'),
+        string: resolve(__dirname, 'src/stringUtils/index.ts'),
+        typeChecker: resolve(__dirname, 'src/typeChecker/index.ts'),
+        url: resolve(__dirname, 'src/url/index.ts'),
       },
     },
   },
