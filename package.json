@@ -1,6 +1,7 @@
 {
-  "name": "@torian12321/js-library-template",
-  "version": "0.0.3-alpha.4",
+  "version": "0.0.1",
+  "name": "@torian12321/js-utils",
+  "description": "A collection of utility functions for JavaScript",
   "type": "module",
   "prettier": "@torian12321/prettier-config",
   "scripts": {
@@ -18,7 +19,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/torian12321/js-library-template.git"
+    "url": "git+https://github.com/torian12321/js-utils.git"
   },
   "files": [
     "dist/**/*"
@@ -26,31 +27,59 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/js-library-template.js",
-      "require": "./dist/js-library-template.cjs"
+      "import": "./dist/js-utils.js",
+      "require": "./dist/js-utils.cjs"
     },
-    "./is": {
-      "types": "./dist/is.d.ts",
-      "import": "./dist/is.js",
-      "require": "./dist/is.cjs"
+    "./array": {
+      "types": "./dist/array.d.ts",
+      "import": "./dist/array.js",
+      "require": "./dist/array.cjs"
+    },
+    "./date": {
+      "types": "./dist/date.d.ts",
+      "import": "./dist/date.js",
+      "require": "./dist/date.cjs"
+    },
+    "./object": {
+      "types": "./dist/object.d.ts",
+      "import": "./dist/object.js",
+      "require": "./dist/object.cjs"
+    },
+    "./string": {
+      "types": "./dist/string.d.ts",
+      "import": "./dist/string.js",
+      "require": "./dist/string.cjs"
+    },
+    "./typeChecker": {
+      "types": "./dist/typeChecker.d.ts",
+      "import": "./dist/typeChecker.js",
+      "require": "./dist/typeChecker.cjs"
+    },
+    "./url": {
+      "types": "./dist/url.d.ts",
+      "import": "./dist/url.js",
+      "require": "./dist/url.cjs"
     }
   },
   "devDependencies": {
     "@torian12321/eslint-config": "0.0.11",
     "@torian12321/prettier-config": "0.0.4",
     "@torian12321/typescript-config": "0.0.5",
-    "@types/node": "^24.10.0",
-    "@vitest/coverage-v8": "^4.0.8",
-    "@vitest/ui": "^4.0.8",
+    "@types/node": "^24.10.1",
+    "@vitest/coverage-v8": "^4.0.14",
+    "@vitest/ui": "^4.0.14",
     "eslint": "^9.39.1",
     "globals": "^16.5.0",
-    "prettier": "^3.6.2",
+    "prettier": "^3.7.1",
     "rollup-plugin-visualizer": "^6.0.5",
     "typedoc": "^0.28.14",
     "typedoc-github-theme": "^0.3.1",
     "typedoc-material-theme": "^1.4.1",
-    "vite": "^7.2.2",
+    "vite": "^7.2.4",
     "vite-plugin-dts": "^4.5.4",
-    "vitest": "^4.0.8"
+    "vitest": "^4.0.14"
+  },
+  "dependencies": {
+    "dayjs": "^1.11.19"
   }
 }

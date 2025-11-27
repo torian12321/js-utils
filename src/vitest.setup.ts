@@ -1,17 +1,32 @@
-import { afterAll, afterEach, beforeAll, beforeEach } from 'vitest';
+import { afterEach, beforeEach, vi } from 'vitest';
 
-beforeAll(() => {
-  // Add your global beforeAll logics
-});
+let originalDate: typeof global.Date;
 
 beforeEach(() => {
-  // Add your globalbeforeEach logics
-});
-
-afterAll(() => {
-  // Add your global afterAll logics
+  // Store original Date
+  originalDate = global.Date;
+  // Mock Date to return consistent values regardless of timezone
+  const mockDate = class extends Date {
+    getTimezoneOffset() {
+      return -60; // UTC+1 offset in minutes
+    }
+    toISOString() {
+      return originalDate.prototype.toISOString.call(this);
+    }
+    getUTCFullYear() {
+      return originalDate.prototype.getUTCFullYear.call(this);
+    }
+    getUTCMonth() {
+      return originalDate.prototype.getUTCMonth.call(this);
+    }
+    getUTCDate() {
+      return originalDate.prototype.getUTCDate.call(this);
+    }
+  };
+  vi.stubGlobal('Date', mockDate);
 });
 
 afterEach(() => {
-  // Add your global afterEach logics
+  // Restore the original Date object
+  vi.unstubAllGlobals();
 });

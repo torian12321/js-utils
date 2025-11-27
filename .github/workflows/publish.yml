@@ -1,0 +1,79 @@
+name: Publish Package
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch: # Allows manual triggering from GitHub UI
+
+permissions:
+  contents: write
+  packages: write
+  id-token: write
+
+jobs:
+  validate:
+    uses: ./.github/workflows/CI.yml
+
+  publish:
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📦 Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2 # Fetch current and previous commit to compare
+
+      - name: 🔍 Check if version changed
+        id: version-check
+        run: |
+          # Get current version
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          echo "Current version: $CURRENT_VERSION"
+
+          # Try to get previous version (from previous commit)
+          if git show HEAD^1:package.json > /tmp/prev-package.json 2>/dev/null; then
+            PREVIOUS_VERSION=$(node -p "require('/tmp/prev-package.json').version")
+            echo "Previous version: $PREVIOUS_VERSION"
+          else
+            # First commit or package.json didn't exist before - force publish
+            PREVIOUS_VERSION="none"
+            echo "No previous version found - first publish"
+          fi
+
+          # Compare versions
+          if [ "$CURRENT_VERSION" != "$PREVIOUS_VERSION" ]; then
+            echo "Version changed from $PREVIOUS_VERSION to $CURRENT_VERSION"
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "version=$CURRENT_VERSION" >> $GITHUB_OUTPUT
+          else
+            echo "Version unchanged ($CURRENT_VERSION)"
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: 🔧 Setup NPM and Install Dependencies
+        if: steps.version-check.outputs.changed == 'true'
+        uses: ./.github/actions/setup-npm
+
+      - name: 📦 Build package
+        if: steps.version-check.outputs.changed == 'true'
+        run: npm run build
+
+      - name: 🚀 Publish to GitHub Packages
+        if: steps.version-check.outputs.changed == 'true'
+        run: |
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" > .npmrc
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 🏷️ Create Git Tag
+        if: steps.version-check.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag -a "v${{ steps.version-check.outputs.version }}" -m "Release v${{ steps.version-check.outputs.version }}"
+          git push origin "v${{ steps.version-check.outputs.version }}"
+
+      - name: ℹ️ No version change detected
+        if: steps.version-check.outputs.changed == 'false'
+        run: echo "Package version unchanged - skipping publish"
