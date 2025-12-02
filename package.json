@@ -70,7 +70,7 @@
     "@vitest/ui": "^4.0.14",
     "eslint": "^9.39.1",
     "globals": "^16.5.0",
-    "prettier": "^3.7.1",
+    "prettier": "^3.7.3",
     "rollup-plugin-visualizer": "^6.0.5",
     "typedoc": "^0.28.14",
     "typedoc-github-theme": "^0.3.1",
