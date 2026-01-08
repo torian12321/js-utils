@@ -3,14 +3,6 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { configureDateFormats } from './dateFormatManager';
 import { formatTime } from './formatTime';
-import { isDST } from './isDST';
-
-// Since isDST might depend on external factors like the system clock
-// or specific date libraries, it's mocked to control
-// the test environment and ensure consistent results.
-vi.mock('./isDST', () => ({
-  isDST: vi.fn(),
-}));
 
 describe('dateUtils/formatTime', () => {
   beforeEach(() => {
@@ -27,14 +19,12 @@ describe('dateUtils/formatTime', () => {
 
   describe('with default template formating', () => {
     it('should return a string formated for a given string', () => {
-      vi.mocked(isDST).mockReturnValue(true);
       const dateString = '2022-03-28T15:42:16';
 
       expect(formatTime(dateString)).toBe('15:42:16');
     });
 
     it('should return a string formated for a given Date', () => {
-      vi.mocked(isDST).mockReturnValue(true);
       const dateDate = new Date('2021-02-26T22:55:16');
 
       expect(formatTime(dateDate)).toBe('22:55:16');
@@ -43,7 +33,6 @@ describe('dateUtils/formatTime', () => {
 
   describe('with custom template formating', () => {
     it('should return a string formated for a given string', () => {
-      vi.mocked(isDST).mockReturnValue(true);
       const dateString = '2022-03-28T22:42:16.652Z';
       const customTemplate = 'mm-ss';
 
@@ -53,7 +42,6 @@ describe('dateUtils/formatTime', () => {
     });
 
     it('should return a string formated for a given Date', () => {
-      vi.mocked(isDST).mockReturnValue(true);
       const dateDate = new Date('2021-02-26T22:42:16.652Z');
       const customTemplate = 'h:m:s';
 
@@ -64,7 +52,6 @@ describe('dateUtils/formatTime', () => {
   });
 
   it('should format a valid time correctly when not in DST', () => {
-    vi.mocked(isDST).mockReturnValue(false);
     const mockDate = '2021-06-01T12:34:56Z';
 
     expect(formatTime(mockDate, { template: 'mm-ss' })).toBe('34-56');

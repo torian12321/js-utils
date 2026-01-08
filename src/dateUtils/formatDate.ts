@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 
-import { getDateFormat } from './dateFormatManager';
+import { getClientTimezone, getDateFormat } from './dateFormatManager';
 import type { FormatArgs } from './format.types';
 import { getLocalTimezone } from './getLocalTimezone';
 import { isDateValid } from './isDateValid';
@@ -33,7 +33,11 @@ import { isDateValid } from './isDateValid';
 
 export const formatDate = (
   dateValue?: string | Date | null,
-  { template = getDateFormat(), userLocalTimezone = false }: FormatArgs = {},
+  {
+    timezone = getClientTimezone(),
+    template = getDateFormat(),
+    userLocalTimezone = false,
+  }: FormatArgs = {},
 ): string => {
   if (!isDateValid(dateValue)) return '';
 
@@ -42,5 +46,5 @@ export const formatDate = (
     return localDate.format(template);
   }
 
-  return dayjs(dateValue).format(template);
+  return dayjs(dateValue).tz(timezone).format(template);
 };
