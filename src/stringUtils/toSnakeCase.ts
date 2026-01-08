@@ -8,8 +8,17 @@ import { isString } from 'src/typeChecker';
  *
  * @example
  * ```ts
- * // From spaceCase
- * toSnakeCase('lorem ipsum dolor sit amet');
+ * // From camelCase
+ * toSnakeCase('LoremIpsum');
+ * // => 'lorem_ipsum'
+ *
+ * toSnakeCase('LoremIpsumABC');
+ * // => 'lorem_ipsum_abc'
+ * ```
+ *
+ * ```ts
+ * // From kebab-case
+ * toSnakeCase('lorem-ipsum-dolor-sit-amet');
  * // => 'lorem_ipsum_dolor_sit_amet'
  * ```
  *
@@ -20,20 +29,14 @@ import { isString } from 'src/typeChecker';
  * ```
  *
  * ```ts
- * // From camelCase
- * toSnakeCase('LoremIpsumABC');
- * // => 'lorem_ipsum_abc'
+ * // From spaceCase
+ * toSnakeCase('lorem ipsum dolor sit amet');
+ * // => 'lorem_ipsum_dolor_sit_amet'
  * ```
  *
  * ```ts
  * // From all uppercase letters
  * toSnakeCase('LOREM IPSUM DOLOR SIT AMET');
- * // => 'lorem_ipsum_dolor_sit_amet'
- * ```
- *
- * ```ts
- * // From kebab-case
- * toSnakeCase('lorem-ipsum-dolor-sit-amet');
  * // => 'lorem_ipsum_dolor_sit_amet'
  * ```
  *
