@@ -1,10 +1,12 @@
 import { isString } from 'src/typeChecker';
 
 /**
+ *
  * Takes a cameCase `string` and returns its snake_case version.
  *
  * @param {string} str - string to format
  * @returns {string} string with lowercase format
+ * @deprecated Use `toSnakeCase` instead.
  *
  * @example
  * ```ts
