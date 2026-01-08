@@ -5,6 +5,7 @@ import { isString } from 'src/typeChecker';
  *
  * @param {string} str - string to format
  * @returns {string} string with correct format with spaces
+ * @deprecated Use `toSpaceCase` instead.
  *
  * @example
  * ```ts

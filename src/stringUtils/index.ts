@@ -6,3 +6,4 @@ export { isEmailValid } from './isEmailValid';
 export { snakeCaseToSpace } from './snakeCaseToSpace';
 export { formatTemplate, replaceTemplate } from './template';
 export { toSnakeCase } from './toSnakeCase';
+export { toSpaceCase } from './toSpaceCase';
