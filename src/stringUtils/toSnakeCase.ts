@@ -43,6 +43,7 @@ import { isString } from 'src/typeChecker';
  * // => 'lorem_ipsum_dolor_sit_amet'
  * ```
  */
+
 export const toSnakeCase = (str?: string): string => {
   if (!isString(str)) {
     return '';

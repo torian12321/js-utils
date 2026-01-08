@@ -7,6 +7,38 @@ describe('stringUtils/toSnakeCase', () => {
     expect(toSnakeCase()).toBe('');
   });
 
+  describe('From camelCase', () => {
+    it('Should lowercase all letters and replace " " to "_"', () => {
+      expect(toSnakeCase('loremIpsumDolorSitAmet')).toBe(
+        'lorem_ipsum_dolor_sit_amet',
+      );
+    });
+    it('should replace uppercase letters with lowercase letters and "_"', () => {
+      expect(toSnakeCase('loremIpsumABC')).toBe('lorem_ipsum_abc');
+    });
+  });
+  describe('From kebab-case', () => {
+    it('Should replace "-" to "_"', () => {
+      expect(toSnakeCase('lorem-ipsum-dolor-sit-amet')).toBe(
+        'lorem_ipsum_dolor_sit_amet',
+      );
+    });
+    it('Should lowercase all letters and replace "-" to "_"', () => {
+      expect(toSnakeCase('Lorem-Ipsum-Dolor-Sit-Amet')).toBe(
+        'lorem_ipsum_dolor_sit_amet',
+      );
+    });
+  });
+  describe('From pascalCase', () => {
+    it('Should lowercase all letters and replace " " to "_"', () => {
+      expect(toSnakeCase('LoremIpsumDolorSitAmet')).toBe(
+        'lorem_ipsum_dolor_sit_amet',
+      );
+    });
+    it('should replace uppercase letters with lowercase letters and "_"', () => {
+      expect(toSnakeCase('LoremIpsumABC')).toBe('lorem_ipsum_abc');
+    });
+  });
   describe('From spaceCase', () => {
     it('Should replace " " to "_"', () => {
       expect(toSnakeCase('lorem ipsum dolor sit amet')).toBe(
@@ -25,39 +57,6 @@ describe('stringUtils/toSnakeCase', () => {
     });
     it('Should lowercase all letters and replace " " to "_"', () => {
       expect(toSnakeCase('lorem ipsum ABC')).toBe('lorem_ipsum_abc');
-    });
-  });
-  describe('From kebab-case', () => {
-    it('Should replace "-" to "_"', () => {
-      expect(toSnakeCase('lorem-ipsum-dolor-sit-amet')).toBe(
-        'lorem_ipsum_dolor_sit_amet',
-      );
-    });
-    it('Should lowercase all letters and replace "-" to "_"', () => {
-      expect(toSnakeCase('Lorem-Ipsum-Dolor-Sit-Amet')).toBe(
-        'lorem_ipsum_dolor_sit_amet',
-      );
-    });
-  });
-
-  describe('From pascalCase', () => {
-    it('Should lowercase all letters and replace " " to "_"', () => {
-      expect(toSnakeCase('LoremIpsumDolorSitAmet')).toBe(
-        'lorem_ipsum_dolor_sit_amet',
-      );
-    });
-    it('should replace uppercase letters with lowercase letters and "_"', () => {
-      expect(toSnakeCase('LoremIpsumABC')).toBe('lorem_ipsum_abc');
-    });
-  });
-  describe('From camelCase', () => {
-    it('Should lowercase all letters and replace " " to "_"', () => {
-      expect(toSnakeCase('loremIpsumDolorSitAmet')).toBe(
-        'lorem_ipsum_dolor_sit_amet',
-      );
-    });
-    it('should replace uppercase letters with lowercase letters and "_"', () => {
-      expect(toSnakeCase('loremIpsumABC')).toBe('lorem_ipsum_abc');
     });
   });
 
