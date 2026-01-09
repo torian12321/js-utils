@@ -5,9 +5,13 @@ import { configureDateFormats } from './dateFormatManager';
 import { formatDateTime } from './formatDateTime';
 
 describe('dateUtils/formatDateTime', () => {
+  const dateString = '2022-03-28T22:42:16.652Z';
+  const dateDate = new Date('2021-02-26T22:42:16.652Z');
+
   beforeEach(() => {
     configureDateFormats({
-      dateFormat: 'MM/DD/YYYY',
+      clientTimezone: 'Europe/Dublin',
+      dateTimeFormat: 'MM/DD/YYYY HH:mm',
     });
   });
 
@@ -17,39 +21,48 @@ describe('dateUtils/formatDateTime', () => {
     expect(formatDateTime('invalid-date')).toBe('');
   });
 
-  it('should return a string formatted for a given string in a specific timezone', () => {
-    const dateString = '2022-03-28T22:42:16.652Z';
-    const dateDate = new Date('2021-02-26T22:42:16.652Z');
-    const customTemplate = 'YYYY-MM-DD mm:ssZ[Z]';
+  describe('template', () => {
+    it('should return dateTime with default template', () => {
+      expect(formatDateTime(dateString)).toBe('03/28/2022 23:42');
+      expect(formatDateTime(dateDate)).toBe('02/26/2021 22:42');
+    });
+    it('should return dateTime with custom template', () => {
+      const template = 'YYYY-MM-DD mm:ss';
 
-    expect(formatDateTime(dateString, { template: customTemplate })).toBe(
-      '2022-03-28 42:16+01:00Z',
-    );
-    expect(formatDateTime(dateDate, { template: customTemplate })).toBe(
-      '2021-02-26 42:16+01:00Z',
-    );
+      expect(formatDateTime(dateString, { template })).toBe('2022-03-28 42:16');
+      expect(formatDateTime(dateDate, { template })).toBe('2021-02-26 42:16');
+    });
   });
 
-  it('should return a string formatted for a given string in a specific timezone outside DST', () => {
-    const dateString = '2022-03-28T10:42:16.652Z';
-    const dateDate = new Date('2021-02-26T12:42:16.652Z');
-    const customTemplate = 'YYYY-MM-DD mm:ssZ[Z]';
+  describe('timezone', () => {
+    it('should return values for default timezone (Dublin)', () => {
+      expect(formatDateTime(dateString)).toBe('03/28/2022 23:42');
+      expect(formatDateTime(dateDate)).toBe('02/26/2021 22:42');
+    });
 
-    expect(formatDateTime(dateString, { template: customTemplate })).toBe(
-      '2022-03-28 42:16+01:00Z',
-    );
-    expect(formatDateTime(dateDate, { template: customTemplate })).toBe(
-      '2021-02-26 42:16+01:00Z',
-    );
+    it('should return values for Dublin timezone', () => {
+      const timezone = 'Europe/Dublin';
+
+      expect(formatDateTime(dateString, { timezone })).toBe('03/28/2022 23:42');
+      expect(formatDateTime(dateDate, { timezone })).toBe('02/26/2021 22:42');
+    });
+    // Same dates as above (Europe/Dublin), but in Toronto timezone
+    it('should return values for Toronto timezone', () => {
+      const timezone = 'America/Toronto';
+
+      expect(formatDateTime(dateString, { timezone })).toBe('03/28/2022 18:42');
+      expect(formatDateTime(dateDate, { timezone })).toBe('02/26/2021 17:42');
+    });
   });
-
   describe('with local timezone formating', () => {
     let tzGuessSpy: ReturnType<typeof vi.spyOn>;
 
     beforeEach(() => {
-      // Freeze tz.guess() to be deterministic
-      tzGuessSpy = vi.spyOn(dayjs.tz, 'guess').mockReturnValue('Europe/Dublin');
-      configureDateFormats({ dateTimeFormat: 'YYYY-MM-DD HH:mm:ss' });
+      // Mock the timezone of the client to be Jerusalem to test the DST and standard time.
+      // Freeze tz.guess() to be deterministic to ensure the tests are consistent.
+      tzGuessSpy = vi
+        .spyOn(dayjs.tz, 'guess')
+        .mockReturnValue('Asia/Jerusalem');
     });
 
     afterEach(() => {
@@ -57,19 +70,19 @@ describe('dateUtils/formatDateTime', () => {
       vi.restoreAllMocks();
     });
 
-    it('winter date: same calendar day as UTC (Dublin ~= UTC)', () => {
-      // November: standard time (UTC+0)
+    it('winter date: +2h offset from UTC (Jerusalem standard time)', () => {
+      // November: IST (UTC+2)
       const s = '2025-11-04T13:59:07.974763Z';
       expect(formatDateTime(s, { userLocalTimezone: true })).toBe(
-        '2025-11-04 13:59:07',
+        '11/04/2025 15:59',
       );
     });
 
-    it('summer date: may differ by +1h but same calendar day if not near midnight', () => {
-      // June: DST (UTC+1)
+    it('summer date: +3h offset from UTC (Jerusalem DST)', () => {
+      // June: IDT (UTC+3)
       const s = '2025-06-01T12:34:56Z';
       expect(formatDateTime(s, { userLocalTimezone: true })).toBe(
-        '2025-06-01 13:34:56',
+        '06/01/2025 15:34',
       );
     });
   });

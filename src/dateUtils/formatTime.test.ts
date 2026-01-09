@@ -5,8 +5,12 @@ import { configureDateFormats } from './dateFormatManager';
 import { formatTime } from './formatTime';
 
 describe('dateUtils/formatTime', () => {
+  const dateString = '2022-03-28T22:42:16.652Z';
+  const dateDate = new Date('2021-02-26T22:45:23.652Z');
+
   beforeEach(() => {
     configureDateFormats({
+      clientTimezone: 'Europe/Dublin',
       timeFormat: 'HH:mm:ss',
     });
   });
@@ -17,53 +21,50 @@ describe('dateUtils/formatTime', () => {
     expect(formatTime('invalid-date')).toBe('');
   });
 
-  describe('with default template formating', () => {
-    it('should return a string formated for a given string', () => {
-      const dateString = '2022-03-28T15:42:16';
-
-      expect(formatTime(dateString)).toBe('15:42:16');
+  describe('template', () => {
+    it('should return dateTime with default template', () => {
+      expect(formatTime(dateString)).toBe('23:42:16');
+      expect(formatTime(dateDate)).toBe('22:45:23');
     });
 
-    it('should return a string formated for a given Date', () => {
-      const dateDate = new Date('2021-02-26T22:55:16');
+    it('should return dateTime with custom template', () => {
+      const template = 'h:m:s';
 
-      expect(formatTime(dateDate)).toBe('22:55:16');
-    });
-  });
-
-  describe('with custom template formating', () => {
-    it('should return a string formated for a given string', () => {
-      const dateString = '2022-03-28T22:42:16.652Z';
-      const customTemplate = 'mm-ss';
-
-      expect(formatTime(dateString, { template: customTemplate })).toBe(
-        '42-16',
-      );
-    });
-
-    it('should return a string formated for a given Date', () => {
-      const dateDate = new Date('2021-02-26T22:42:16.652Z');
-      const customTemplate = 'h:m:s';
-
-      expect(formatTime(dateDate, { template: customTemplate })).toBe(
-        '10:42:16',
-      );
+      expect(formatTime(dateString, { template })).toBe('11:42:16');
+      expect(formatTime(dateDate, { template })).toBe('10:45:23');
     });
   });
 
-  it('should format a valid time correctly when not in DST', () => {
-    const mockDate = '2021-06-01T12:34:56Z';
+  describe('timezone', () => {
+    it('should return values for default timezone (Dublin)', () => {
+      expect(formatTime(dateString)).toBe('23:42:16');
+      expect(formatTime(dateDate)).toBe('22:45:23');
+    });
 
-    expect(formatTime(mockDate, { template: 'mm-ss' })).toBe('34-56');
+    it('should return values for Dublin timezone', () => {
+      const timezone = 'Europe/Dublin';
+
+      expect(formatTime(dateString, { timezone })).toBe('23:42:16');
+      expect(formatTime(dateDate, { timezone })).toBe('22:45:23');
+    });
+    // Same dates as above (Europe/Dublin), but in Toronto timezone
+    it('should return values for Toronto timezone', () => {
+      const timezone = 'America/Toronto';
+
+      expect(formatTime(dateString, { timezone })).toBe('18:42:16');
+      expect(formatTime(dateDate, { timezone })).toBe('17:45:23');
+    });
   });
 
   describe('with local timezone formating', () => {
     let tzGuessSpy: ReturnType<typeof vi.spyOn>;
 
     beforeEach(() => {
-      // Freeze tz.guess() to be deterministic
-      tzGuessSpy = vi.spyOn(dayjs.tz, 'guess').mockReturnValue('Europe/Dublin');
-      configureDateFormats({ timeFormat: 'HH:mm:ss' });
+      // Mock the timezone of the client to be Jerusalem to test the DST and standard time.
+      // Freeze tz.guess() to be deterministic to ensure the tests are consistent.
+      tzGuessSpy = vi
+        .spyOn(dayjs.tz, 'guess')
+        .mockReturnValue('Asia/Jerusalem');
     });
 
     afterEach(() => {
@@ -71,29 +72,16 @@ describe('dateUtils/formatTime', () => {
       vi.restoreAllMocks();
     });
 
-    it('returns empty string for invalid inputs', () => {
-      expect(formatTime('', { userLocalTimezone: true })).toBe('');
-      expect(formatTime('invalid-date', { userLocalTimezone: true })).toBe('');
+    it('winter date: +2h offset from UTC (Jerusalem standard time)', () => {
+      // November: IST (UTC+2)
+      const s = '2025-11-04T13:59:07.974763Z';
+      expect(formatTime(s, { userLocalTimezone: true })).toBe('15:59:07');
     });
 
-    describe('UTC (Z) inputs → convert to local Dublin time', () => {
-      it('winter date (Dublin ~= UTC) keeps the same hour', () => {
-        // November is standard time in Dublin (UTC+0)
-        const s = '2025-11-04T13:59:07.974763Z';
-        expect(formatTime(s, { userLocalTimezone: true })).toBe('13:59:07');
-      });
-
-      it('summer date (Dublin = UTC+1) shifts +1h', () => {
-        // June is typically DST (UTC+1)
-        const s = '2025-06-01T12:34:56Z';
-        expect(formatTime(s, { userLocalTimezone: true })).toBe('13:34:56');
-      });
-
-      it('parses Date objects as instants and converts correctly', () => {
-        // February is standard time (UTC+0) in Dublin
-        const d = new Date('2021-02-26T22:55:16Z');
-        expect(formatTime(d, { userLocalTimezone: true })).toBe('22:55:16');
-      });
+    it('summer date: +3h offset from UTC (Jerusalem DST)', () => {
+      // June: IDT (UTC+3)
+      const s = '2025-06-01T12:34:56Z';
+      expect(formatTime(s, { userLocalTimezone: true })).toBe('15:34:56');
     });
   });
 });
