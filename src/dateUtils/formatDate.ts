@@ -1,9 +1,6 @@
-import dayjs from 'dayjs';
-
-import { getClientTimezone, getDateFormat } from './dateFormatManager';
+import { getDateFormat } from './dateFormatManager';
 import type { FormatArgs } from './format.types';
-import { getLocalTimezone } from './getLocalTimezone';
-import { isDateValid } from './isDateValid';
+import { formatDateValue } from './formatDateValue';
 
 /**
  * For a given date|string, return a string with the indicated format.
@@ -33,18 +30,5 @@ import { isDateValid } from './isDateValid';
 
 export const formatDate = (
   dateValue?: string | Date | null,
-  {
-    timezone = getClientTimezone(),
-    template = getDateFormat(),
-    userLocalTimezone = false,
-  }: FormatArgs = {},
-): string => {
-  if (!isDateValid(dateValue)) return '';
-
-  if (userLocalTimezone) {
-    const localDate = getLocalTimezone(dateValue);
-    return localDate.format(template);
-  }
-
-  return dayjs(dateValue).tz(timezone).format(template);
-};
+  options: FormatArgs = {},
+): string => formatDateValue(dateValue, getDateFormat(), options);
