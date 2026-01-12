@@ -1,6 +1,7 @@
 export default {
   $schema:
     'https://developer.microsoft.com/json-schemas/tsdoc/v0/tsdoc.schema.json',
+  projectDocuments: ['./src/**/README.md'],
   entryPoints: [
     './src/index.ts',
     './src/arrayUtils/index.ts',

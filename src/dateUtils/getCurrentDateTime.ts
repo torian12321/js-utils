@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 
-import { formatDateTime } from './formatDateTime';
+import { formatDateTime } from './format/formatDateTime';
 
 /**
  * Return the current dateTime based on the user's computer.

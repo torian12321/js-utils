@@ -1,4 +1,4 @@
-import { formatDate } from './formatDate';
+import { formatDate } from './format/formatDate';
 
 /**
  * Returns the current date formatted according to the specified template.
