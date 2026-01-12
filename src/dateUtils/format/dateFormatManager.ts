@@ -7,7 +7,7 @@ import {
   DEFAULT_DATE_FORMAT,
   DEFAULT_DATETIME_FORMAT,
   DEFAULT_TIME_FORMAT,
-} from './constants';
+} from '../constants';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
