@@ -1,10 +1,12 @@
-export { camelToSnakeCase } from './camelToSnakeCase';
 export { capitalise } from './capitalise';
 export { capitaliseFirstLetter } from './capitaliseFirstLetter';
 export { convertJsonStringToObject } from './convertJsonStringToObject';
 export { isEmailValid } from './isEmailValid';
-export { snakeCaseToSpace } from './snakeCaseToSpace';
 export { formatTemplate, replaceTemplate } from './template';
-export { toCamelCase } from './toCamelCase';
-export { toSnakeCase } from './toSnakeCase';
-export { toSpaceCase } from './toSpaceCase';
+export {
+  camelToSnakeCase,
+  snakeCaseToSpace,
+  toCamelCase,
+  toSnakeCase,
+  toSpaceCase,
+} from './textTransform';
