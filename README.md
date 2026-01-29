@@ -43,17 +43,26 @@ The date formatting utilities can be configured globally:
 import { configureDateFormats } from '@torian12321/js-utils/date';
 
 configureDateFormats({
-  dateFormat: 'YYYY-MM-DD', // Optional
-  timeFormat: 'HH:mm', // Optional
-  dateTimeFormat: 'YYYY-MM-DD HH:mm', // Optional
+  clientTimezone: 'America/New_York',
+  dateFormat: 'YYYY-MM-DD',
+  timeFormat: 'HH:mm',
+  dateTimeFormat: 'YYYY-MM-DD HH:mm',
 });
 ```
 
+### Default values
+
 If not configured, the following defaults are used:
 
+- Time Zone: 'Europe/Dublin',
 - Date format: 'MM/DD/YYYY'
 - Time format: 'HH:mm'
 - Date and time format: 'MM/DD/YYYY HH:mm'
+
+### Valid formats
+
+- Client timezone [IANA timezone](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)
+- Date/DateTime/Time formats [day.js format](https://day.js.org/docs/en/display/format)
 
 ## Documentation
 

@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
+import { configureDateFormats } from './format/dateFormatManager';
 import { mockDateGlobal } from './_testHelpers';
-import { configureDateFormats } from './dateFormatManager';
 import { getCurrentDateTime } from './getCurrentDateTime';
 
 describe('dateUtils/getCurrentDateTime', () => {
